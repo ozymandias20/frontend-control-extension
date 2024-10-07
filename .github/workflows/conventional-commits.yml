@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize, reopened]
   push:
     branches:
-      - dev  # Cambia esto si tu rama principal tiene otro nombre
+      - main  # Cambia esto si tu rama principal tiene otro nombre
 
 jobs:
   commitlint:
