@@ -1,0 +1,8 @@
+{
+  "name": "frontend-control-extension",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "id": "5af32ee9"
+}
