@@ -1,45 +1,23 @@
-name: Conventional Commits
+name: Lint Commits
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   push:
     branches:
-      - main
-      - 'feature/*'
-      - 'bugfix/*'
-      - 'hotfix/*'
-  pull_request:
-    branches:
-      - main
-      - 'feature/*'
-      - 'bugfix/*'
-      - 'hotfix/*'
+      - dev  # Cambia esto si tu rama principal tiene otro nombre
 
 jobs:
-  conventional-commits:
+  commitlint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install commitlint
+      - name: Install Commitlint
         run: |
-          npm install -g @commitlint/config-conventional @commitlint/cli
+          npm install --save-dev @commitlint/{config-conventional,cli}
 
-      - name: Create commitlint configuration file
+      - name: Lint Commits
         run: |
-          echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
-
-      - name: Check commit messages
-        run: |
-          git log origin/main..HEAD --pretty=format:%s | commitlint
-
-      - name: Check PR title
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "${{ github.event.pull_request.title }}" | commitlint
+          npx commitlint --from=HEAD~1 --to=HEAD --config '{ "extends": ["@commitlint/config-conventional"] }'
