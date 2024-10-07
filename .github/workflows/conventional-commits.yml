@@ -21,25 +21,20 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: '14'
 
       - name: Install commitlint
         run: |
           npm install -g @commitlint/config-conventional @commitlint/cli
-
-      - name: Create commitlint configuration file
-        run: |
-          echo "module.exports = { extends: ['@commitlint/config-conventional'] };" > commitlint.config.js
 
       - name: Check commit messages
         run: |
           BASE_REF=master  # Cambia 'master' si deseas otra rama base
           git fetch origin $BASE_REF  # Asegúrate de que la rama base se haya recuperado
           echo "Checking commits against: origin/$BASE_REF"
-          git log origin/$BASE_REF..HEAD --pretty=format:%s | tee commits.log  # Guarda los mensajes de commit para depuración
-          cat commits.log | commitlint
+          git log origin/$BASE_REF..HEAD --pretty=format:%s | commitlint --config '{"extends": ["@commitlint/config-conventional"]}'
 
       - name: Check PR title
         if: github.event_name == 'pull_request'
         run: |
-          echo "${{ github.event.pull_request.title }}" | commitlint
+          echo "${{ github.event.pull_request.title }}" | commitlint --config '{"extends": ["@commitlint/config-conventional"]}'
