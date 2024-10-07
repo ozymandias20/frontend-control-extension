@@ -1,40 +1,23 @@
-name: Conventional Commits
+name: Lint Commits
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
   push:
     branches:
-      - '**'  # Esto aplica a todas las ramas
-  pull_request:
-    branches:
-      - '**'  # Esto aplica a todas las ramas
+      - main  # Cambia esto si tu rama principal tiene otro nombre
 
 jobs:
-  conventional-commits:
+  commitlint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0  # Obtener todas las ramas y la historia completa
 
-      - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install commitlint
+      - name: Install Commitlint
         run: |
-          npm install -g @commitlint/config-conventional @commitlint/cli
+          npm install --save-dev @commitlint/{config-conventional,cli}
 
-      - name: Check commit messages
+      - name: Lint Commits
         run: |
-          BASE_REF=master  # Cambia 'master' si deseas otra rama base
-          git fetch origin $BASE_REF  # Asegúrate de que la rama base se haya recuperado
-          echo "Checking commits against: origin/$BASE_REF"
-          git log origin/$BASE_REF..HEAD --pretty=format:%s | commitlint --config '{"extends": ["@commitlint/config-conventional"]}'
-
-      - name: Check PR title
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "${{ github.event.pull_request.title }}" | commitlint --config '{"extends": ["@commitlint/config-conventional"]}'
+          npx commitlint --from=HEAD~1 --to=HEAD --config '{ "extends": ["@commitlint/config-conventional"] }'
