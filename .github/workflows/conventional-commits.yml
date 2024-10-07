@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Obtener todas las ramas y la historia completa
 
       - name: Install Node.js
         uses: actions/setup-node@v2
@@ -31,7 +33,11 @@ jobs:
 
       - name: Check commit messages
         run: |
-          git log origin/${{ github.base_ref }}..HEAD --pretty=format:%s | commitlint
+          if [ "${{ github.event_name }}" == "push" ]; then
+            git log origin/main..HEAD --pretty=format:%s | commitlint  # Cambia 'main' por la rama base deseada
+          else
+            git log origin/${{ github.base_ref }}..HEAD --pretty=format:%s | commitlint
+          fi
 
       - name: Check PR title
         if: github.event_name == 'pull_request'
