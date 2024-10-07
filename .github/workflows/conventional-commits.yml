@@ -3,16 +3,10 @@ name: Conventional Commits
 on:
   push:
     branches:
-      - main
-      - 'feature/*'
-      - 'bugfix/*'
-      - 'hotfix/*'
+      - '**'  # Esto aplica a todas las ramas
   pull_request:
     branches:
-      - main
-      - 'feature/*'
-      - 'bugfix/*'
-      - 'hotfix/*'
+      - '**'  # Esto aplica a todas las ramas
 
 jobs:
   conventional-commits:
@@ -37,7 +31,7 @@ jobs:
 
       - name: Check commit messages
         run: |
-          git log origin/main..HEAD --pretty=format:%s | commitlint
+          git log origin/${{ github.base_ref }}..HEAD --pretty=format:%s | commitlint
 
       - name: Check PR title
         if: github.event_name == 'pull_request'
