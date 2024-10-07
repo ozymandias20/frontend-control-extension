@@ -33,13 +33,9 @@ jobs:
 
       - name: Check commit messages
         run: |
-          if [ "${GITHUB_EVENT_NAME}" == "push" ]; then
-            git log origin/master..HEAD --pretty=format:%s | commitlint  # Cambia 'main' por la rama base deseada
-          else
-            git log origin/${{ github.base_ref }}..HEAD --pretty=format:%s | commitlint
-          fi
-        env:
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          BASE_REF=${{ github.event_name == 'push' && 'master' || github.base_ref }}  # Cambia 'main' si deseas otra rama base
+          git fetch origin $BASE_REF  # Asegúrate de que la rama base se haya recuperado
+          git log origin/$BASE_REF..HEAD --pretty=format:%s | commitlint
 
       - name: Check PR title
         if: github.event_name == 'pull_request'
