@@ -3,6 +3,12 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import Menu from './components/Menu';
 import Page from './pages/Page';
+import Carrera from './pages/Carrera';
+import Personas from './pages/Personas';
+import PeriodoLectivo from './pages/PeriodoLectivo';
+import Pasantia from './pages/Pasantia';
+import Proyectos from './pages/Proyectos';
+import Roles from './pages/Roles';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -29,10 +35,12 @@ import '@ionic/react/css/display.css';
 
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
+//import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Folder from './components/Folder';
+import ExploreContainer from './components/ExploreContainer';
 
 setupIonicReact();
 
@@ -42,13 +50,12 @@ const App: React.FC = () => {
       <IonReactRouter>
         <IonSplitPane contentId="main">
           <Menu />
+          
           <IonRouterOutlet id="main">
-            <Route path="/" exact={true}>
-              <Redirect to="/folder/Inbox" />
-            </Route>
-            <Route path="/folder/:name" exact={true}>
-              <Page />
-            </Route>
+          
+          <Route path="/folder" component={Folder} />
+        <Redirect exact from="/" to="/folder" />
+            
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
