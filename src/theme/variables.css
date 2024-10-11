@@ -1,2 +1,17 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+:root {
+    --ion-color-primary: #4285f4; /* Color azul de Google */
+    --ion-color-secondary: #db4437; /* Color rojo de Google */
+    --ion-font-family: 'Roboto', sans-serif; /* Fuente moderna */
+}
+
+ion-header, ion-toolbar {
+    background: white;
+    box-shadow: none;
+}
+
+ion-button {
+    background-color: var(--ion-color-primary);
+    color: white;
+}

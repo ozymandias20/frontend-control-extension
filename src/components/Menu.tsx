@@ -21,6 +21,10 @@ interface AppPage {
   title: string;
 }
 
+interface MenuData {
+  onLogout: ()=>void
+}
+
 const appPages: AppPage[] = [
   {
     title: 'Inbox',
@@ -62,11 +66,11 @@ const appPages: AppPage[] = [
 
 const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-const Menu: React.FC = () => {
+const Menu: React.FC<MenuData> = ({onLogout}) => {
   const location = useLocation();
 
   return (
-    <IonMenu contentId="main" type="overlay">
+     <IonMenu contentId="main" type="reveal" >
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>Inbox</IonListHeader>
@@ -83,7 +87,7 @@ const Menu: React.FC = () => {
           })}
         </IonList>
 
-        <IonList id="labels-list">
+        <IonList id="labels-list" >
           <IonListHeader>Labels</IonListHeader>
           {labels.map((label, index) => (
             <IonItem lines="none" key={index}>
