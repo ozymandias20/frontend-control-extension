@@ -29,6 +29,10 @@ interface AppPage {
   page?:ReactNode
 }
 
+interface MenuData {
+  onLogout: ()=>void
+}
+
 const appPages: AppPage[] = [
   {
     title: 'Facultades',
@@ -63,7 +67,11 @@ const appPages: AppPage[] = [
  
 ];
 
+
+const Menu: React.FC<MenuData> = ({onLogout}) => {
+
 const Menu: React.FC = () => {
+
   const location = useLocation();
   const [paginas, setPaginas] = useState<AppPage[]>(appPages);
 
@@ -79,7 +87,7 @@ const Menu: React.FC = () => {
   }
 
   return (
-    <IonMenu contentId="main" type="overlay">
+     <IonMenu contentId="main" type="reveal" >
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>
