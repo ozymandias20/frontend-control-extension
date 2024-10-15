@@ -7,6 +7,7 @@ import Page from './pages/Page';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
@@ -18,8 +19,24 @@ import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
-import '@ionic/react/css/palettes/dark.system.css';
+
+ //import '@ionic/react/css/palettes/dark.system.css';
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* import '@ionic/react/css/palettes/dark.always.css'; */
+/* import '@ionic/react/css/palettes/dark.class.css'; */
+//import '@ionic/react/css/palettes/dark.system.css';
+
+/* Theme variables */
 import './theme/variables.css';
+import Folder from './components/Folder';
+import ExploreContainer from './components/ExploreContainer';
 
 setupIonicReact();
 
@@ -29,6 +46,7 @@ interface User {
 }
 
 const App: React.FC = () => {
+    
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para autenticación
   const [users, setUsers] = useState<User[]>([]); // Estado para almacenar usuarios registrados
 
@@ -53,6 +71,17 @@ const App: React.FC = () => {
             <Route path="/" exact>
               <Redirect to="/folder/Inbox" />
             </Route>
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonSplitPane contentId="main">
+          <Menu />
+          
+          <IonRouterOutlet id="main">
+          
+          <Route path="/folder" component={Folder} />
+        <Redirect exact from="/" to="/folder" />
+            
           </IonRouterOutlet>
       </IonSplitPane>
     );
