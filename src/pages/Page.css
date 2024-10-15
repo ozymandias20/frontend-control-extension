@@ -1,0 +1,40 @@
+.font-style {
+    color: var(--ion-color-secondary);
+    border-color: var(--ion-color-success);
+    height: fit-content;
+}
+.font-style-table{
+    background-color: gre;
+    border: solid 1px #fff;
+    color: #fff;
+    text-align: center;
+}
+.table-header {
+  background-color: #135d54;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+}
+
+.table-row {
+  background-color: #e0f7fa;
+  text-align: center;
+  padding: 10px;
+}
+
+.table-row:nth-child(even) {
+  background-color: #b2dfdb; /* Colores alternos para filas */
+}
+
+.table-cell {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.table-grid {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
