@@ -5,10 +5,34 @@ import {
 } from '@ionic/react';
 import { ellipsisVertical } from 'ionicons/icons';  // Importar el ícono
 import './Page.css';
+import { useParams } from 'react-router';
 
 const Carrera: React.FC = () => {
   const [mostrarActionSheet, setMostrarActionSheet] = useState<boolean>(false);
   const [filaSeleccionada, setFilaSeleccionada] = useState<number | null>(null);
+  const [indice ,setIndice] = useState(-1);
+
+  interface Facultad {
+    carrera:string, 
+    facultad:string, 
+    año:number
+  }
+  
+
+  const filas:Facultad[] = [
+    { carrera: 'Ing en Sistemas', facultad: 'FPUNE', año: 2000 },
+    { carrera: 'Ing Civil', facultad: 'FPUNE', año: 2002 },
+    { carrera: 'Arquitectura', facultad: 'FPUNE', año: 2005 },
+    { carrera: 'Ing en pINCEL', facultad: 'ESBA', año: 2000 },
+    { carrera: 'Ing EN JOCKER', facultad: 'FAFI', año: 2002 },
+    { carrera: 'Arquitectura', facultad: 'FPUNE', año: 2005 },
+  ];
+
+
+
+  const { facultad } = useParams<{ facultad: string; }>();
+
+  const [lista, setLista] = useState<Facultad[]>(filas.filter(fila=>fila.facultad===facultad))
 
   const handleAction = (action: string, index: number) => {
     setMostrarActionSheet(false);
@@ -16,17 +40,18 @@ const Carrera: React.FC = () => {
     // Aquí puedes agregar la lógica para "Agregar", "Modificar" o "Eliminar" para esa fila específica
   };
 
-  const filas = [
-    { carrera: 'Ing en Sistemas', facultad: 'FPUNE', año: 2000 },
-    { carrera: 'Ing Civil', facultad: 'FPUNE', año: 2002 },
-    { carrera: 'Arquitectura', facultad: 'FPUNE', año: 2005 },
-  ];
-
+  const handleBorrar = (indice:number) => {
+    if(indice>=0){
+      const nuevaLista = lista.filter((elemento,index)=>index!==indice)
+      setLista(nuevaLista)
+    }
+  }
+  
   return (
     <IonPage>
       <IonHeader className='ion-padding'>
         <IonToolbar>
-          <IonTitle>Carrera</IonTitle>
+          <IonTitle>{facultad}</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -41,7 +66,7 @@ const Carrera: React.FC = () => {
             </IonRow>
 
         
-            {filas.map((fila, index) => (
+            {lista.map((fila, index) => (
               <IonRow key={index} className="table-row">
                 <IonCol className="table-cell">{fila.carrera}</IonCol>
                 <IonCol className="table-cell">{fila.facultad}</IonCol>
@@ -50,6 +75,7 @@ const Carrera: React.FC = () => {
                   <IonButton
                     color="success"
                     onClick={() => {
+                      setIndice(index)
                       setFilaSeleccionada(index);
                       setMostrarActionSheet(true);
                     }}
@@ -78,7 +104,7 @@ const Carrera: React.FC = () => {
               {
                 text: 'Eliminar',
                 role: 'destructive', 
-                handler: () => handleAction('Eliminar', filaSeleccionada!),
+                handler: () => handleBorrar(indice),
               },
               {
                 text: 'Cancelar',
