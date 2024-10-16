@@ -36,7 +36,6 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Folder from './components/Folder';
-import ExploreContainer from './components/ExploreContainer';
 
 setupIonicReact();
 
@@ -47,7 +46,7 @@ interface User {
 
 const App: React.FC = () => {
     
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para autenticación
+  const [isAuthenticated, setIsAuthenticated] = useState(true); // Estado para autenticación
   const [users, setUsers] = useState<User[]>([]); // Estado para almacenar usuarios registrados
 
   const handleLogin = (username: string, password: string) => {
@@ -63,26 +62,10 @@ const App: React.FC = () => {
   const Rutas:React.FC = () => {
     return (
       <IonSplitPane contentId="main">
+        
         <Menu onLogout={handleLogout} />
-          <IonRouterOutlet id="main">
-            <Route path="/folder/:name" exact>
-            <Page />
-            </Route>
-            <Route path="/" exact>
-              <Redirect to="/folder/Inbox" />
-            </Route>
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          
-          <IonRouterOutlet id="main">
-          
-          <Route path="/folder" component={Folder} />
-        <Redirect exact from="/" to="/folder" />
-            
-          </IonRouterOutlet>
+        <Folder/>
+ 
       </IonSplitPane>
     );
   
