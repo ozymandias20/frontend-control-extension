@@ -2,7 +2,6 @@ import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/r
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Menu from './components/Menu';
 import Page from './pages/Page';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -37,6 +36,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Folder from './components/Folder';
 import ExploreContainer from './components/ExploreContainer';
+import Menu from './components/Menu';
 
 setupIonicReact();
 
@@ -71,17 +71,6 @@ const App: React.FC = () => {
             <Route path="/" exact>
               <Redirect to="/folder/Inbox" />
             </Route>
-  return (
-    <IonApp>
-      <IonReactRouter>
-        <IonSplitPane contentId="main">
-          <Menu />
-          
-          <IonRouterOutlet id="main">
-          
-          <Route path="/folder" component={Folder} />
-        <Redirect exact from="/" to="/folder" />
-            
           </IonRouterOutlet>
       </IonSplitPane>
     );

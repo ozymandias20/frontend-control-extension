@@ -70,8 +70,6 @@ const appPages: AppPage[] = [
 
 const Menu: React.FC<MenuData> = ({onLogout}) => {
 
-const Menu: React.FC = () => {
-
   const location = useLocation();
   const [paginas, setPaginas] = useState<AppPage[]>(appPages);
 
