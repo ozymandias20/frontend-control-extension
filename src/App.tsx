@@ -35,6 +35,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Folder from './components/Folder';
+import Menu from './components/Menu';
 
 setupIonicReact();
 
