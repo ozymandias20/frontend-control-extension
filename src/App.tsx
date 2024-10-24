@@ -2,7 +2,6 @@ import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/r
 import { IonReactRouter } from '@ionic/react-router';
 import { Redirect, Route } from 'react-router-dom';
 import { useState } from 'react';
-import Menu from './components/Menu';
 import Page from './pages/Page';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
@@ -61,11 +60,9 @@ const App: React.FC = () => {
 
   const Rutas:React.FC = () => {
     return (
-      <IonSplitPane contentId="main">
-        
+      <IonSplitPane contentId="main"> 
         <Menu onLogout={handleLogout} />
         <Folder/>
- 
       </IonSplitPane>
     );
   
