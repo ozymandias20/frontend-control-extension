@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import {
   IonCol, IonContent, IonGrid, IonHeader, IonPage, IonRow, IonTitle, IonToolbar,
-  IonButton, IonActionSheet, IonIcon
+  IonButton, IonActionSheet, IonIcon,
+  IonButtons,
+  IonMenuButton
 } from '@ionic/react';
 import { ellipsisVertical } from 'ionicons/icons';  // Importar el ícono
 import './Page.css';
@@ -51,6 +53,9 @@ const Carrera: React.FC = () => {
     <IonPage>
       <IonHeader className='ion-padding'>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle>{facultad}</IonTitle>
         </IonToolbar>
       </IonHeader>
