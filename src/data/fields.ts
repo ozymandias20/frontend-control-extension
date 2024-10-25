@@ -25,3 +25,20 @@ export const useLoginFields = ():CustomInputHTMLAttributes[] => {
     ];
     return campos;
 }
+
+export const useRegisterFields = ()=> {
+    const campos:CustomInputHTMLAttributes[] = [
+        {
+            id: 'correo',
+            name: 'correo',
+            inputMode:"text",
+            type:'text',
+            title:'Correo',
+            placeholder:'Ingrese su correo',
+            required:true,
+            state: useFormInput(),
+        },
+        ...useLoginFields()
+    ];
+    return campos;
+}
