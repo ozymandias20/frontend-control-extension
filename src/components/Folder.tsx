@@ -21,6 +21,7 @@ const Folder: React.FC = () => (
     <Route exact path="/:facultad/proyectos">
       <Proyectos />
     </Route>
+    
   
     <Route path='/' exact>
       <Page/>
