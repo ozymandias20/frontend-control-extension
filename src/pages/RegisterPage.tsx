@@ -1,26 +1,43 @@
-import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/react';
+import React, { useEffect, useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonRadioGroup, RadioGroupChangeEventDetail, IonRadio, IonLabel } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { useHistory } from 'react-router';
+import { FacultadesStore } from '../data/FacultadesStore';
+import { useRegisterFields } from '../data/fields';
+import CustomField from '../components/CustomField';
+import { ErrorMessage } from '../data/types';
+import { getValues, validateForm } from '../data/utils';
 
 interface RegisterPageProps {
-    onRegister: (username: string, password: string) => void
+    onRegister: (username: string, password: string, facultad:string) => void
 }
 
 const RegisterPage: React.FC<RegisterPageProps > = ({ onRegister }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    
+    const facultades = FacultadesStore.useState(s=>s.facultades);
+    const [facultad, setFacultad] = useState('')
     const history = useHistory();
+    const campos = useRegisterFields();
+    const [errores, setErrores] = useState<ErrorMessage[]>([]);
+
+    useEffect(()=>{
+        return ()=> campos.forEach((campo)=>campo.state.reset(''));
+    },[]);
 
     const handleRegister = async () => {
-        // Aquí agregarías la lógica de registro real
-        if (name && email && password) {
+
+        const errores = validateForm(campos);
+        setErrores(errores)
+        if(!errores.length){
+            const valores = getValues(campos);
+            // Aquí agregarías la lógica de registro real
             await Preferences.set({ key: 'isAuthenticated', value: 'true' }); // Guardar autenticación
-            onRegister(email, password);
+            onRegister(valores.correo, valores.clave, facultad);
             history.replace('/'); // Redirigir al inicio después del registro
         }
     };
+
+
 
     return (
         <IonPage>
@@ -29,15 +46,31 @@ const RegisterPage: React.FC<RegisterPageProps > = ({ onRegister }) => {
                     <IonTitle>Registro de Usuario</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding">
-                <IonItem>
-                    <IonInput placeholder="Nombre" required value={name} onIonChange={e => setName(e.detail.value!)}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonInput placeholder="Correo Electrónico" type="email" required value={email} onIonChange={e => setEmail(e.detail.value!)}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonInput placeholder="Contraseña" type="password" required value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
+            <IonContent className="ion-padding ion-justify-content-center">
+                {
+                    campos.map((campo,i)=>{
+                        return (
+                            <CustomField key={i} field={campo} errors={errores} /> 
+                        )
+                    })
+                }
+                <IonItem >
+                    <IonRadioGroup onIonChange={(ev)=>{setFacultad(ev.detail.value)}}>
+                        <IonLabel color="primary">
+                            <h2>Elige la institución a la cuál perteneces</h2>
+                        </IonLabel>
+                        {
+                            facultades.map((facultad, i)=>{
+                                return (
+                                    <IonRadio key={i} value={facultad}>
+                                        <IonLabel>
+                                            <p><b>{facultad}</b></p>
+                                        </IonLabel>
+                                    </IonRadio>
+                                )
+                            })
+                        }
+                    </IonRadioGroup>
                 </IonItem>
                 <IonButton expand="full" color="primary" onClick={handleRegister}>Registrarse</IonButton>
             </IonContent>

@@ -1,6 +1,6 @@
 import { IonApp, IonRouterOutlet, IonSplitPane, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useHistory } from 'react-router-dom';
 import { useState } from 'react';
 import Page from './pages/Page';
 import LoginPage from './pages/LoginPage';
@@ -36,22 +36,29 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Folder from './components/Folder';
 import Menu from './components/Menu';
+import { FacultadStore } from './data/FacultadesStore';
 
 setupIonicReact();
 
 interface User {
   username: string;
   password: string;
+  facultad: string;
 }
 
 const App: React.FC = () => {
     
-  const [isAuthenticated, setIsAuthenticated] = useState(true); // Estado para autenticación
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para autenticación
   const [users, setUsers] = useState<User[]>([]); // Estado para almacenar usuarios registrados
-
+  const history = useHistory();
   const handleLogin = (username: string, password: string) => {
     const user = users.find((user) => user.username === username && user.password === password);
+    console.log('tamo');
+    
     if (user) {
+      FacultadStore.update((s)=>{
+        s.facultad = user.facultad;
+      })
       setIsAuthenticated(true);
     } else {
       alert('Credenciales incorrectas');
@@ -69,12 +76,21 @@ const App: React.FC = () => {
   
   }
 
-  const handleRegister = (username: string, password: string) => {
-    setUsers([...users, { username, password }]);
+  const handleRegister = (username: string, password: string, facultad:string) => {
+    const usuarioNuevo = { username, password, facultad }
+    console.log(usuarioNuevo);
+    
+    setUsers([...users, usuarioNuevo]);
   };
 
   const handleLogout = () => {
+    
     setIsAuthenticated(false);
+    return async ()=>{
+      setTimeout(()=>{
+        history.replace('/')
+      },100);
+    }
   };
 
   return (

@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { useHistory } from 'react-router';
+import { useLoginFields } from '../data/fields';
+import CustomField from '../components/CustomField';
+import { ErrorMessage } from '../data/types';
+import { getValues, validateForm } from '../data/utils';
 
 
 interface LoginPageProps {
@@ -9,16 +13,29 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    
+    const [errores, setErrores] = useState<ErrorMessage[]>([])
     const history = useHistory();
+    const campos = useLoginFields();
+
+    useEffect(()=>{
+        return ()=>
+            campos.forEach((campo)=>{
+                campo.state.reset('');
+            })
+        
+    },[])
 
     const handleLogin = async () => {
         // Aquí agregarías la lógica de autenticación real
-        if (email && password) {
+        const errores = validateForm(campos);
+        setErrores(errores)
+
+        if(!errores.length) {
+            const valores = getValues(campos);
             await Preferences.set({ key: 'isAuthenticated', value: 'true' });
-            onLogin(email,password);
-            history.replace('/'); // Redirigir al inicio después del inicio de sesión
+                onLogin(valores.usuario,valores.clave);
+                history.replace('/'); // Redirigir al inicio después del inicio de sesión
         }
     };
 
@@ -30,12 +47,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                <IonItem>
-                    <IonInput placeholder="Correo Electrónico" type="email" required value={email} onIonChange={e => setEmail(e.detail.value!)}></IonInput>
-                </IonItem>
-                <IonItem>
-                    <IonInput placeholder="Contraseña" type="password" required value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
-                </IonItem>
+                {
+                    campos.map((campo,i)=>{
+                        return (
+                            <CustomField field={campo}  key={i}  errors={errores}/>
+                        )
+                    })
+                }
                 <IonButton expand="full" color="primary" onClick={handleLogin}>Iniciar Sesión</IonButton>
                 <IonButton expand="full" color="primary" routerLink='/register'>Registrarme</IonButton>
             </IonContent>

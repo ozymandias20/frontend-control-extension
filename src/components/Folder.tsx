@@ -26,6 +26,10 @@ const Folder: React.FC = () => (
       <Page/>
     </Route>
 
+    <Route path='/:facultad' exact>
+      <Redirect to="/" />
+    </Route>
+
     <Route exact path="/folder">
       <Redirect to="/" />
     </Route>

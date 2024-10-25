@@ -1,11 +1,11 @@
 import {
   IonAccordion,
   IonAccordionGroup,
-  IonButton,
   IonContent,
   IonIcon,
   IonImg,
   IonItem,
+  IonItemGroup,
   IonLabel,
   IonList,
   IonListHeader,
@@ -15,91 +15,85 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { briefcase,  business, calendar, people, peopleCircle, schoolOutline,  } from 'ionicons/icons';
+import { briefcase,  business, calendar, exit, people, schoolOutline,  } from 'ionicons/icons';
 import './Menu.css';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
+import { FacultadesStore, FacultadStore } from '../data/FacultadesStore';
 
 interface AppPage {
-  url: string;
-  iosIcon: string;
-  mdIcon: string;
+  url?: string;
+  iosIcon?: string;
+  mdIcon?: string;
   title: string;
   subPages?: AppPage[],
-  page?:ReactNode
+  page?:ReactNode,
+  click?: ()=>void
 }
 
 interface MenuData {
   onLogout: ()=>void
 }
 
-const appPages: AppPage[] = [
-  {
-    title: 'Facultades',
-    url: 'facultad',
-    iosIcon: schoolOutline,
-    mdIcon: schoolOutline,
-  },
-  {
-    title: 'Personas',
-    url: 'personas',
-    iosIcon: people,
-    mdIcon: people,
-    subPages: [
-      {
-        title: 'Alumnos',
-        url:'alumnos',
-         iosIcon:peopleCircle,
-         mdIcon:peopleCircle,
 
-      },
-      {
-        title: 'Funcionarios',
-        url:'funcionarios',
-         iosIcon:peopleCircle,
-         mdIcon:peopleCircle,
-      }
-    ]
-  },
-  {
-    title: 'Periodo Lectivo',
-    url: 'periodoLectivo',
-    iosIcon: calendar,
-    mdIcon: calendar,
-  },
-  {
-    title: 'Pasantia',
-    url: 'pasantia',
-    iosIcon: briefcase,
-    mdIcon: briefcase
-  },
-  {
-    title: 'Proyectos',
-    url: 'proyectos',
-    iosIcon: business,
-    mdIcon: business,
-  },
- 
-];
 
 
 const Menu: React.FC<MenuData> = ({onLogout}) => {
 
-  const location = useLocation();
-  const [paginas, setPaginas] = useState<AppPage[]>(appPages);
-  const [facultades, setFacultades] = useState<string[]>([
-    'FPUNE','FAFI','DER','FACISA','ESBA',
-  ])
+  const appPages: AppPage[] = [
+    {
+      title: 'Facultades',
+      url: 'facultad',
+      iosIcon: schoolOutline,
+      mdIcon: schoolOutline,
+    },
+    {
+      title: 'Personas',
+      url: 'personas',
+      iosIcon: people,
+      mdIcon: people,
+      subPages: [
+        {
+          title: 'Alumnos',
+          url:'alumnos',
+  
+        },
+        {
+          title: 'Funcionarios',
+          url:'funcionarios',
+        }
+      ]
+    },
+    {
+      title: 'Periodo Lectivo',
+      url: 'periodoLectivo',
+      iosIcon: calendar,
+      mdIcon: calendar,
+    },
+    {
+      title: 'Pasantia',
+      url: 'pasantia',
+      iosIcon: briefcase,
+      mdIcon: briefcase
+    },
+    {
+      title: 'Proyectos',
+      url: 'proyectos',
+      iosIcon: business,
+      mdIcon: business,
+    },
+    {
+      title: 'Cerrar Sesión',
+      iosIcon: exit,
+      mdIcon: exit,
+      click: ()=>onLogout()
+    }
+   
+  ];
 
-  const handleButton = ()=>{
-    const nuevasPaginas = [...paginas]
-    nuevasPaginas.push({
-      title:'Prueba',
-      iosIcon:business,
-      mdIcon:business,
-      url:'/',
-    });
-    setPaginas(nuevasPaginas)
-  }
+  const location = useLocation();
+  const paginas=[...appPages];
+  const facultades = FacultadesStore.useState(s=>s.facultades);
+  const facultad = FacultadStore.useState(s=>s.facultad);
 
   interface SubPagesProps {
     appPages:AppPage[]
@@ -108,35 +102,42 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
     return(
       appPages.map((appPage, index)=>{
         return(
-          <IonMenuToggle key={index} autoHide={false}>
+          <IonItemGroup key={index} className='ion-no-padding'>
               {
                 appPage.subPages && (
-                  <IonAccordionGroup>
-                    <IonAccordion>
-                      <IonItem slot='header' className={location.pathname === appPage.url ? 'selected' : ''}  routerDirection="none" lines="none" detail={false}>
-                        <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                        <IonLabel>{appPage.title}</IonLabel>
-                      </IonItem>
-                      {
-                        <IonList className='ion-margin-start' slot='content'>
-                          <SubPages appPages={appPage.subPages}/>
-                        </IonList>
-                      }
-                    </IonAccordion>
-                </IonAccordionGroup>
+                  <IonItemGroup>
+                    <IonAccordionGroup >
+                      <IonAccordion>
+                        <IonItem slot='header' className={location.pathname === appPage.url ? 'selected' : ''}  routerDirection="none" lines="none" detail={false}>
+                          <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                          <IonLabel>{appPage.title}</IonLabel>
+                        </IonItem>
+                        {
+                          <IonList className='ion-margin-start' slot='content'>
+                            <SubPages appPages={appPage.subPages}/>
+                          </IonList>
+                        }
+                      </IonAccordion>
+                    </IonAccordionGroup>
+                  </IonItemGroup>
                 )
               }
               {
                 !appPage.subPages && (
-                  <IonItem  className={location.pathname === appPage.url ? 'selected' : ''}
-                    routerLink={`/${appPage.url}`}
-                    routerDirection="none" lines="none" detail={false}>
+                  <IonItem  className={`ion-no-padding ${location.pathname === appPage.url ? 'selected' : ''}`}
+                    routerLink={appPage.url?`/${facultad}/${appPage.url}`:undefined}
+                    routerDirection='none' 
+                    lines="none" 
+                    detail={false} 
+                    button={appPage.click && !appPage.url}
+                    onClick={()=> appPage.click && appPage.click()}
+                  >
                     <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                     <IonLabel>{appPage.title}</IonLabel>
                   </IonItem>
                 )
               }
-          </IonMenuToggle>
+          </IonItemGroup>
         )
       })
     )
@@ -144,7 +145,7 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
 
 
   return (
-     <IonMenu contentId="main" type="reveal" >
+     <IonMenu contentId="main" type="push" hidden={false}>
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>
@@ -167,12 +168,12 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
                 Universidad Nacional del Este
             </IonLabel>
           </IonNote>
-          {false && paginas.map((appPage, index) => {
+          {false &&  paginas.map((appPage, index) => {
             return (
-              <IonMenuToggle key={index} autoHide={false}>
+              <IonMenuToggle key={index}>
                 <IonAccordionGroup>
                   <IonAccordion>
-                    <IonItem slot='header' className={location.pathname === appPage.url ? 'selected' : ''}  routerDirection="none" lines="none" detail={false}>
+                    <IonItem slot='header'  lines="none" detail={false}>
                       <IonIcon aria-hidden="true" slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
                       <IonLabel>{appPage.title}</IonLabel>
                     </IonItem>
@@ -193,6 +194,7 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
               </IonMenuToggle>
             );
           })}
+
            <SubPages appPages={paginas}/>
         </IonList>
       </IonContent>
