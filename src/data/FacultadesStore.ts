@@ -6,7 +6,7 @@ interface FacultadStoreState {
 
 
 export const FacultadesStore = new Store<FacultadStoreState>({
-    facultades: ['FPUNE','FAFI','DER','FACISA','ESBA']
+    facultades: ['FPUNE','FAFI','DERECHO', 'CONTABILIDAD','FACISA','ESBA']
 })
 
 
