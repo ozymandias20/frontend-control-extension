@@ -81,12 +81,22 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
       iosIcon: business,
       mdIcon: business,
     },
+
+    {
+      title: 'Extensión',
+      url: 'extension',  
+      iosIcon: schoolOutline,
+      mdIcon: schoolOutline,
+    },
+   
     {
       title: 'Cerrar Sesión',
       iosIcon: exit,
       mdIcon: exit,
       click: ()=>onLogout()
-    }
+    },
+
+    
    
   ];
 

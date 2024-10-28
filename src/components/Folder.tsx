@@ -5,6 +5,8 @@ import Pasantia from '../pages/Pasantia';
 import Proyectos from '../pages/Proyectos';
 import Page from '../pages/Page';
 import { IonRouterOutlet } from '@ionic/react';
+import ProyectoExtension from '../pages/Extension';
+import Extension from '../pages/Extension';
 
 
 const Folder: React.FC = () => (
@@ -20,6 +22,9 @@ const Folder: React.FC = () => (
     </Route>
     <Route exact path="/:facultad/proyectos">
       <Proyectos />
+    </Route>
+    <Route exact path="/:facultad/extension">
+      <Extension />
     </Route>
     
   

@@ -32,7 +32,7 @@ export const useFormInput = (initialValue?: any ) => {
 
     return {
         value,
-        reset: (newValue: SetStateAction<any>) => setValue(newValue),
+        reset: (newValue?: SetStateAction<any>) => setValue(newValue),
         onIonInput: handleChange,
         onKeyUp: handleChange
     };
@@ -48,7 +48,7 @@ export const validateForm = (fields: CustomInputHTMLAttributes[]) => {
 
 			const fieldValue = field.state.value;
 
-			if (fieldValue === "") {
+			if (fieldValue === "" || fieldValue === null) {
 
 				const error:ErrorMessage = {
 
