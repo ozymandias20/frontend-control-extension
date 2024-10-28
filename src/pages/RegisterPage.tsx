@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonRadioGroup, RadioGroupChangeEventDetail, IonRadio, IonLabel } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonRadioGroup, RadioGroupChangeEventDetail, IonRadio, IonLabel, IonGrid, IonRow, IonCol } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { useHistory } from 'react-router';
 import { FacultadesStore } from '../data/FacultadesStore';
@@ -47,32 +47,58 @@ const RegisterPage: React.FC<RegisterPageProps > = ({ onRegister }) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding ion-justify-content-center">
-                {
-                    campos.map((campo,i)=>{
-                        return (
-                            <CustomField key={i} field={campo} errors={errores} /> 
-                        )
-                    })
-                }
-                <IonItem >
-                    <IonRadioGroup onIonChange={(ev)=>{setFacultad(ev.detail.value)}}>
-                        <IonLabel color="primary">
-                            <h2>Elige la institución a la cuál perteneces</h2>
-                        </IonLabel>
-                        {
-                            facultades.map((facultad, i)=>{
-                                return (
-                                    <IonRadio key={i} value={facultad}>
-                                        <IonLabel>
-                                            <p><b>{facultad}</b></p>
-                                        </IonLabel>
-                                    </IonRadio>
-                                )
-                            })
-                        }
-                    </IonRadioGroup>
-                </IonItem>
-                <IonButton expand="full" color="primary" onClick={handleRegister}>Registrarse</IonButton>
+                <IonGrid>
+                    {
+                        campos.map((campo,i)=>{
+                            return (
+                                <IonRow  key={i}>
+                                    <IonCol sizeXl='6' pushXl='3' pullXl='3' sizeLg='6' pushLg='3' sizeXs='12' sizeMd='3' pushMd='3'>
+                                        <CustomField field={campo}  errors={errores}/>
+                                    </IonCol>
+                                </IonRow>
+                            )
+                        })
+                    }
+                    <IonRow>
+                        <IonCol sizeXl='6' pushXl='3' pullXl='3' sizeLg='6' pushLg='3' sizeXs='12' sizeMd='8' pushMd='3'>
+                            <IonItem >
+                                <IonRadioGroup onIonChange={(ev)=>{setFacultad(ev.detail.value)}}>
+                                    <IonLabel color="primary">
+                                        <h2>Elige la institución a la cuál perteneces</h2>
+                                    </IonLabel>
+                                    <IonGrid>
+                                        <IonRow>
+                                            {
+                                                facultades.map((facultad, i)=>{
+                                                    return (
+                                                        <IonCol
+                                                        sizeXl='5' 
+                                                        sizeLg='5' 
+                                                        sizeMd='5' 
+                                                        sizeSm='5' 
+                                                        sizeXs='12'
+                                                        key={i} >
+                                                            <IonRadio value={facultad} labelPlacement='fixed'>
+                                                                <IonLabel>
+                                                                    <p><b>{facultad}</b></p>
+                                                                </IonLabel>
+                                                            </IonRadio>
+                                                        </IonCol>
+                                                    )
+                                                })
+                                            }
+                                        </IonRow>
+                                    </IonGrid>
+                                </IonRadioGroup>
+                            </IonItem>
+                        </IonCol>
+                    </IonRow>
+                    <IonRow>
+                        <IonCol sizeXl='4' pushXl='4' pullXl='3' sizeLg='4' pushLg='4' sizeXs='12' sizeMd='4' pushMd='4'>
+                            <IonButton expand="full" color="primary" onClick={handleRegister}>Registrarse</IonButton>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
             </IonContent>
         </IonPage>
     );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonGrid, IonRow, IonCol } from '@ionic/react';
 import { Preferences } from '@capacitor/preferences';
 import { useHistory } from 'react-router';
 import { useLoginFields } from '../data/fields';
@@ -47,15 +47,29 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                {
-                    campos.map((campo,i)=>{
-                        return (
-                            <CustomField field={campo}  key={i}  errors={errores}/>
-                        )
-                    })
-                }
-                <IonButton expand="full" color="primary" onClick={handleLogin}>Iniciar Sesión</IonButton>
-                <IonButton expand="full" color="primary" routerLink='/register'>Registrarme</IonButton>
+                <IonGrid>
+                    {
+                        campos.map((campo,i)=>{
+                            return (
+                                <IonRow  key={i}>
+                                    <IonCol sizeXl='6' pushXl='3' pullXl='3' sizeLg='6' pushLg='3' sizeXs='12' sizeMd='3' pushMd='3'>
+                                        <CustomField field={campo}  errors={errores}/>
+                                    </IonCol>
+                                </IonRow>
+                            );
+                        })
+                    }
+                    
+                    <IonRow>
+                        <IonCol sizeXl='3' pushXl='3' pullXl='3' sizeLg='3' pushLg='3' sizeXs='12' sizeMd='3' pushMd='3'>
+                            <IonButton expand='full' color="primary" onClick={handleLogin}>Iniciar Sesión</IonButton>
+                        </IonCol>
+                        <IonCol sizeXl='3' pushXl='3' pullXl='3' sizeLg='3' pushLg='3' sizeXs='12' sizeMd='3' pushMd='3'>
+                            <IonButton expand='full' color="primary" routerLink='/register'>Registrarme</IonButton>
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+                
             </IonContent>
         </IonPage>
     );
