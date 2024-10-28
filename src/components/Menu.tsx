@@ -31,7 +31,7 @@ interface AppPage {
 }
 
 interface MenuData {
-  onLogout: ()=>void
+  onLogout: () => void
 }
 
 
@@ -81,12 +81,22 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
       iosIcon: business,
       mdIcon: business,
     },
+
+    {
+      title: 'Extensión',
+      url: 'extension',  
+      iosIcon: schoolOutline,
+      mdIcon: schoolOutline,
+    },
+   
     {
       title: 'Cerrar Sesión',
       iosIcon: exit,
       mdIcon: exit,
       click: ()=>onLogout()
-    }
+    },
+
+    
    
   ];
 
@@ -96,7 +106,7 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
   const facultad = FacultadStore.useState(s=>s.facultad);
 
   interface SubPagesProps {
-    appPages:AppPage[]
+    appPages: AppPage[]
   }
   const SubPages:React.FC<SubPagesProps> = ({appPages}) => {
     return(
@@ -143,29 +153,27 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
     )
   }
 
-
   return (
      <IonMenu contentId="main" type="push" hidden={false}>
       <IonContent>
         <IonList id="inbox-list">
           <IonListHeader>
             <IonLabel className="ion-text-center">
-            Menu
+              Menu
             </IonLabel>
           </IonListHeader>
 
           <IonList >
             <IonItem routerLink='/'>
               <IonLabel>
-              <IonImg  src='../resources/unelogo2.png' style={{'height':'200px'}} />
+                <IonImg src='../resources/unelogo2.png' style={{ 'height': '200px' }} />
               </IonLabel>
             </IonItem>
           </IonList>
-          
 
           <IonNote className='ion-padding-top'>
             <IonLabel>
-                Universidad Nacional del Este
+              Universidad Nacional del Este
             </IonLabel>
           </IonNote>
           {false &&  paginas.map((appPage, index) => {
@@ -178,19 +186,18 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
                       <IonLabel>{appPage.title}</IonLabel>
                     </IonItem>
                     <div slot='content'>
-                    {
-                      facultades.map((facultad,index)=>{
-                        return(
-                          <IonItem key={index}  routerLink={`/${facultad}/${appPage.url}`}>
-                            {facultad}
-                          </IonItem>
-                        )
-                      })
-                    }
+                      {
+                        facultades.map((facultad, index) => {
+                          return (
+                            <IonItem key={index} routerLink={`/${facultad}/${appPage.url}`}>
+                              {facultad}
+                            </IonItem>
+                          )
+                        })
+                      }
                     </div>
                   </IonAccordion>
                 </IonAccordionGroup>
-               
               </IonMenuToggle>
             );
           })}

@@ -7,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
 
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';

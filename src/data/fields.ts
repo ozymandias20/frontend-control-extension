@@ -42,3 +42,69 @@ export const useRegisterFields = ()=> {
     ];
     return campos;
 }
+
+export const useExtensionFields = ()=> {
+    const campos:CustomInputHTMLAttributes[] = [
+        {
+            id: 'titulo',
+            name: 'titulo',
+            inputMode: "text",
+            type: 'text',
+            title: 'Título',
+            placeholder: 'Ingrese el título del proyecto',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'inicio',
+            name: 'inicio',
+            inputMode: "text",
+            type: 'date',
+            title: 'Fecha de Inicio',
+            placeholder: 'Seleccione la fecha de inicio',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'fin',
+            name: 'fin',
+            inputMode: "text",
+            type: 'date',
+            title: 'Fecha de Fin',
+            placeholder: 'Seleccione la fecha de fin',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'desde',
+            name: 'desde',
+            inputMode: "text",
+            type: 'text',
+            title: 'Desde',
+            placeholder: 'Ingrese desde dónde se realiza el proyecto',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'resolucion',
+            name: 'resolucion',
+            inputMode: "text",
+            type: 'text',
+            title: 'Resolución',
+            placeholder: 'Ingrese el número de resolución',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'director',
+            name: 'director',
+            inputMode: "text",
+            type: 'text',
+            title: 'Director',
+            placeholder: 'Ingrese el nombre del director',
+            required: true,
+            state: useFormInput(),
+        }
+    ];
+    return campos;
+}
