@@ -15,7 +15,7 @@ import {
 } from '@ionic/react';
 
 import { useLocation } from 'react-router-dom';
-import { briefcase,  business, calendar, exit, people, schoolOutline,  } from 'ionicons/icons';
+import { calendar, exit, people, schoolOutline,  } from 'ionicons/icons';
 import './Menu.css';
 import { ReactNode } from 'react';
 import { FacultadesStore, FacultadStore } from '../data/FacultadesStore';
@@ -70,34 +70,17 @@ const Menu: React.FC<MenuData> = ({onLogout}) => {
       mdIcon: calendar,
     },
     {
-      title: 'Pasantia',
-      url: 'pasantia',
-      iosIcon: briefcase,
-      mdIcon: briefcase
-    },
-    {
-      title: 'Proyectos',
-      url: 'proyectos',
-      iosIcon: business,
-      mdIcon: business,
-    },
-
-    {
       title: 'Extensión',
       url: 'extension',  
       iosIcon: schoolOutline,
       mdIcon: schoolOutline,
     },
-   
     {
       title: 'Cerrar Sesión',
       iosIcon: exit,
       mdIcon: exit,
       click: ()=>onLogout()
     },
-
-    
-   
   ];
 
   const location = useLocation();

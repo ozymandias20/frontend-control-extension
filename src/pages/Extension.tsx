@@ -14,28 +14,18 @@ import {
   IonCol,
   IonList,
   IonListHeader,
-  IonItem,
   IonLabel,
-  IonInput,
   IonMenuButton,
 } from '@ionic/react';
 import { ellipsisVertical, add, close } from 'ionicons/icons';
 import { useExtensionFields } from '../data/fields'; // Ajusta la ruta según tu estructura de carpetas
 import CustomField from '../components/CustomField';
-import { ErrorMessage, ProyectoExtension } from '../data/types';
+import { ErrorMessage, Evaluable, ProyectoExtension } from '../data/types';
 import { getValues, validateForm } from '../data/utils';
+import CustomTable from '../components/CustomTable';
 
 const Extension: React.FC = () => {
   const currentYear = new Date().getFullYear();
-
-  const vacio:ProyectoExtension = {
-    titulo: '',
-    inicio: '',
-    fin: '',
-    desde: '',
-    resolucion: '',
-    director: '',
-  }
   
   // Obtener campos de extensión
   const campos = useExtensionFields();
@@ -50,7 +40,7 @@ const Extension: React.FC = () => {
 
 
   // Ejemplo de proyectos, puedes reemplazarlo con datos reales
-  const [projects, setProjects] = useState<ProyectoExtension[]>([vacio]);
+  const [projects, setProjects] = useState<ProyectoExtension[]>([]);
 
   const filteredProjects = projects.filter(project =>
     project.titulo.toLowerCase().includes(searchTerm.toLowerCase())
@@ -72,6 +62,11 @@ const Extension: React.FC = () => {
     }
 
   };
+
+  const borrarElemento = async (elemento:Evaluable) => {
+    const elementoCopia = [...projects].filter(proyecto=>proyecto!==elemento)
+    setProjects(elementoCopia)
+  }
 
   return (
     <IonPage>
@@ -131,47 +126,7 @@ const Extension: React.FC = () => {
           )}
           <IonRow>
             <IonCol>
-              <IonList>
-                <IonListHeader>
-                  <IonLabel>Lista de proyectos de Extensión</IonLabel>
-                </IonListHeader>
-                <IonItem>
-                  <IonGrid>
-                    <IonRow>
-                      {
-                        
-                        Object.keys(vacio).map((key,i)=>{
-                          return(
-                            <IonCol key={i}>
-                              {key.toUpperCase()}
-                            </IonCol>
-                          )
-                        })
-                      }
-                    </IonRow>
-                  </IonGrid>
-                </IonItem>
-                {filteredProjects.length > 0 ? (
-                  filteredProjects.map((project, index) => (
-                    <IonItem key={index}>
-                      <IonGrid>
-                        <IonRow>
-                          <IonCol>{project.titulo}</IonCol>
-                          <IonCol>{(new Date(project.inicio)).toLocaleDateString('es-ES',{ day: 'numeric', month: 'long', year: 'numeric' })}</IonCol>
-                          <IonCol>{(new Date(project.fin)).toLocaleDateString('es-ES',{ day: 'numeric', month: 'long', year: 'numeric' })}</IonCol>
-                          <IonCol>{project.desde}</IonCol>
-                          <IonCol>{project.resolucion}</IonCol>
-                          <IonCol>{project.director}</IonCol>
-                        </IonRow>
-                      </IonGrid>
-                    </IonItem>
-                  )).filter((proyecto,i)=>i>0)
-                ) : (
-                  <IonItem>
-                    <IonLabel>No se encontraron proyectos</IonLabel>
-                  </IonItem>
-                )}
-              </IonList>
+              <CustomTable data={filteredProjects} titulo='Para proyectos' tendraAcciones={true} borrar={borrarElemento} />
             </IonCol>
           </IonRow>
         </IonGrid>

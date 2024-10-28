@@ -9,7 +9,7 @@ export interface CustomInputHTMLAttributes extends React.ComponentProps<typeof I
     }
 }
 
-interface Evaluable {
+export interface Evaluable {
     [key: string]: string;
 }
 export interface ErrorMessage {
@@ -17,11 +17,29 @@ export interface ErrorMessage {
     message:string
 }
 
-export interface ProyectoExtension extends Evaluable{
+interface Resolucion {
+    resolucion: string
+}
+
+export interface ProyectoExtension extends Resolucion, Evaluable{
     titulo: string,
     inicio: string, 
     fin: string, 
-    desde: string, 
-    resolucion: string,
+    desde: string,
     director: string
+}
+export interface PasantiaInfo extends Resolucion, Evaluable{
+    id_pasante:string,
+    empresa: string,
+    encargado: string,
+    carga_horaria:string
+}
+
+export interface PasantiaBorrar extends Evaluable {
+    titulo:string,
+    sintesis:string,
+    unidad_academica:string,
+    area_tematica:string,
+    unidad_ejecutada:string,
+    destinatarios:string,
 }
