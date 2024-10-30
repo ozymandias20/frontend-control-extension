@@ -108,3 +108,144 @@ export const useExtensionFields = ()=> {
     ];
     return campos;
 }
+
+export const useAlumnoFields = (): CustomInputHTMLAttributes[] => {
+    const campos: CustomInputHTMLAttributes[] = [
+        {
+            id: 'id',
+            name: 'id',
+            inputMode: 'text',
+            type: 'text',
+            title: 'ID',
+            placeholder: 'Ingrese el ID',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'ci',
+            name: 'ci',
+            inputMode: 'text',
+            type: 'text',
+            title: 'C.I.',
+            placeholder: 'Ingrese el C.I.',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'email',
+            name: 'email',
+            inputMode: 'email',
+            type: 'email',
+            title: 'Email',
+            placeholder: 'Ingrese el email',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'telefono',
+            name: 'telefono',
+            inputMode: 'tel',
+            type: 'tel',
+            title: 'Teléfono',
+            placeholder: 'Ingrese el teléfono',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'nombre',
+            name: 'nombre',
+            inputMode: 'text',
+            type: 'text',
+            title: 'Nombre',
+            placeholder: 'Ingrese el nombre',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'ingreso',
+            name: 'ingreso',
+            inputMode: 'text',
+            type: 'date',
+            title: 'Ingreso',
+            placeholder: 'Seleccione la fecha de ingreso',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'carrera',
+            name: 'carrera',
+            inputMode: 'text',
+            type: 'text',
+            title: 'Carrera',
+            placeholder: 'Ingrese la carrera',
+            required: true,
+            state: useFormInput(),
+        },
+        {
+            id: 'horasTotales',
+            name: 'horasTotales',
+            inputMode: 'text',
+            type: 'number',
+            title: 'Horas Totales',
+            placeholder: 'Ingrese las horas totales',
+            required: true,
+            state: useFormInput(),
+        }
+    ];
+    return campos;
+}
+
+export const useFuncionarioFields = (): CustomInputHTMLAttributes[] => {
+    return [
+      {
+        id: 'id',
+        name: 'id',
+        inputMode: "text",
+        type: 'text',
+        title: 'ID',
+        placeholder: 'Ingrese el ID del funcionario',
+        required: true,
+        state: useFormInput(),
+      },
+      {
+        id: 'ci',
+        name: 'ci',
+        inputMode: "text",
+        type: 'text',
+        title: 'C.I.',
+        placeholder: 'Ingrese el C.I. del funcionario',
+        required: true,
+        state: useFormInput(),
+      },
+      {
+        id: 'email',
+        name: 'email',
+        inputMode: "email",
+        type: 'email',
+        title: 'Email',
+        placeholder: 'Ingrese el email del funcionario',
+        required: true,
+        state: useFormInput(),
+      },
+      {
+        id: 'telefono',
+        name: 'telefono',
+        inputMode: "tel",
+        type: 'tel',
+        title: 'Teléfono',
+        placeholder: 'Ingrese el teléfono del funcionario',
+        required: true,
+        state: useFormInput(),
+      },
+      {
+        id: 'nombre',
+        name: 'nombre',
+        inputMode: "text",
+        type: 'text',
+        title: 'Nombre',
+        placeholder: 'Ingrese el nombre del funcionario',
+        required: true,
+        state: useFormInput(),
+      }
+    ];
+  };

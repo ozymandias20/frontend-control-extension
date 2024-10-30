@@ -43,3 +43,23 @@ export interface PasantiaBorrar extends Evaluable {
     unidad_ejecutada:string,
     destinatarios:string,
 }
+export interface Alumno extends Evaluable{
+    id: string;
+    ci: string;
+    email: string;
+    telefono: string;
+    nombre: string;
+    ingreso: string;
+    carrera: string;
+    horasTotales: string;
+  }
+  
+export interface Funcionario {
+    id: string;
+    ci: string;
+    email: string;
+    telefono: string;
+    nombre: string;
+  }
+  
+  

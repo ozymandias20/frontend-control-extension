@@ -4,6 +4,8 @@ import Personas from '../pages/Personas';
 import Page from '../pages/Page';
 import { IonRouterOutlet } from '@ionic/react';
 import Extension from '../pages/Extension';
+import Alumnos from '../pages/Alumnos';
+import Funcionarios from '../pages/Funcionarios';
 
 
 const Folder: React.FC = () => (
@@ -15,6 +17,15 @@ const Folder: React.FC = () => (
     
     <Route exact path="/:facultad/extension">
       <Extension />
+    </Route>
+
+    <Route exact path="/:facultad/alumnos">
+      <Alumnos />
+    </Route>
+
+    
+    <Route exact path="/:facultad/funcionarios">
+      <Funcionarios />
     </Route>
     
   
